@@ -91,7 +91,9 @@ else
 
 
 
-
+delete [] george;
+delete [] gergana;
+delete [] line;
 
 
 
