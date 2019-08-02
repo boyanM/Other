@@ -91,11 +91,6 @@ else
 
 
 
-delete [] george;
-delete [] gergana;
-delete [] line;
-
-
 
 	return 0;
 }
