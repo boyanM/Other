@@ -33,7 +33,6 @@ int length = (int)n+1;
 int *george = new int[george_points];
 int *gergana = new int[gergana_points];
 int *line = new int[length];
-
 for(int i = 0; i < length;i++)
 {
 	line[i] = 0;
@@ -66,28 +65,55 @@ for(int i = 0;i < george_points;i++)
 {
 		for(int j = 0;j < gergana_points;j++)
 		{
+
 				int result = george[i] - gergana[j];
 				if(abs(result) == c)
 				{
+					
 						line[george[i]] = 1;
 						line[gergana[j]] = 1;
 				}
 		}
 }
-int count = 0;
-for(int i = 0; i < length;i++)
+//check in the both ends of the line
+for(int i = 0 ; i < george_points;i++)
 {
-	if(line[i] == 0)count++;
+	int start_result = 0 - george[i];
+	int fin_result = (int)n - george[i];
+	if(abs(start_result) == c)line[0] = 1;
+	if(abs(fin_result) == c)line[length-1] = 1;
 }
+
+for(int i = 0 ; i < gergana_points;i++)
+{
+	int start_result = 0 - gergana[i];
+	int fin_result = (int)n - gergana[i];
+	if(abs(start_result) == c)line[0] = 1;
+	if(abs(fin_result) == c)line[length-1] = 1;
+}
+
+int count = 0;
+for(int i = 1; i < length;i++)
+{
+	if(line[i-1] == 0 && line[i] == 0 )count++;
+	if(line[i-1] == 1 && line[i] == 0 )count++;
+	if(line[i-1] == 0 && line[i] == 1) count++; 	
+}
+
 
 if(all_line == true)
 {
-	cout<<0<<endl;
+	count = 0;
 }
 else
 {
-	cout<<count;
+	cout<<"Output: "<<count<<endl;
 }
+
+
+
+
+
 
 
 
