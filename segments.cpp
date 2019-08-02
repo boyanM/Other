@@ -59,8 +59,8 @@ while(distance >= 0)
 	counter++;
 }
 
-if(a == 1 || b == 1)all_line = true;
-
+if(a == c || b == c)all_line = true;
+cout<<"-------------------------"<<endl;
 for(int i = 0;i < george_points;i++)
 {
 		for(int j = 0;j < gergana_points;j++)
@@ -69,7 +69,7 @@ for(int i = 0;i < george_points;i++)
 				int result = george[i] - gergana[j];
 				if(abs(result) == c)
 				{
-					
+					cout<<george[i]<<"	"<<gergana[j]<<endl;
 						line[george[i]] = 1;
 						line[gergana[j]] = 1;
 				}
@@ -103,14 +103,19 @@ for(int i = 1; i < length;i++)
 
 if(all_line == true)
 {
-	count = 0;
+		count = 0;
+cout<<"Output: "<<count<<endl;
 }
+
 else
 {
 	cout<<"Output: "<<count<<endl;
 }
 
-
+for(int i = 0; i < length;i++)
+{
+	cout<<line[i]<<endl;	
+}
 
 
 
