@@ -1,5 +1,5 @@
 <?php
-$username='wordpressuser';
-$password='poolparty5';
-$database='wordpress';
+$username='*************';
+$password='***************';
+$database='*****************';
 ?>
