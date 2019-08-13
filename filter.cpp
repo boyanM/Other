@@ -1,63 +1,82 @@
-#include <iostream>
 #include "filter.h"
-#include <fstream>
-#include <string>
 
-using namespace std;
-
-int main()
+Filter::Filter()
 {
-string line;
+	input.open("result_20190813-16-49_out.txt");
+	output.open("markers.txt");
+}
 
-ifstream read;
-ofstream write;
 
-read.open("result_20190812-13-22_out.txt");
-write.open("markers.csv");
-
-if(read.is_open())
+void Filter::filterSeparators()
 {
-		
-	while(getline(read,line))
+	if(input.is_open())
 	{
-		if(line[0] == '0' && line[1] == '0' && line[2] == '0' && line[3] == '1')
+		bool lineNum = true;
+		while(getline(input,this->line))
 		{
-			write<<line<<endl;						
+			if(lineNum)
+			{
+				line.clear();
+				lineNum = false;
+				continue;
+			}
+
+			this->line = checkForLeadingZeros(this->line);
+			this->line = deleteFirstSeparators(this->line);
+			output<<this->line<<endl;
 		}
+
+		output.clear();
+		output.seekg(0,ios::beg);
+		while(getline(output,line))
+		{
+		//cout<<line<<endl;
+		}
+
 	}
-
-
-}
-
-else
-{
-	cout<<"Error, file not opened !"<<endl;
-}
-
-
-	
-
-
-
-
-
-
-
-
-
-
-
-read.close();
-write.close();
-
-	return 0;
-}
-
-
-
-/*		Prints the file
-	while(getline(myfile,line))
+	else
 	{
-		cout<<line<<endl;
+		cout<<"Error with opening input file !"<<endl;
 	}
-*/	
+}
+
+string Filter::checkForLeadingZeros(string line)
+{
+	while(line[0] == '0')
+	{
+		line.erase(0,1);
+		//cout<<line<<endl;
+	}
+	return line;
+}
+
+string Filter::deleteFirstSeparators(string line)
+{
+	int indexOfSeparator = line.find("|");
+	line.erase(indexOfSeparator,5);
+	line.insert(indexOfSeparator,",");
+
+	indexOfSeparator = line.find("|");
+	line.replace(indexOfSeparator,1,",");
+	line.insert(indexOfSeparator+1,"\"");
+
+	indexOfSeparator = line.find("|");
+	line.replace(indexOfSeparator,1,",");
+	line.insert(indexOfSeparator,"\"");
+
+	indexOfSeparator = line.find("|");
+	line.replace(indexOfSeparator,1,",");
+
+	line = line + ",generated";
+
+
+
+	return line;
+
+}
+
+Filter::~Filter()
+{
+	input.close();
+	output.close();
+}
