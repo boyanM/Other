@@ -1,0 +1,6 @@
+curl \
+  -X GET \
+  -H 'Content-Type: application/octet-stream' \
+  --get 'https://batch.geocoder.api.here.com/6.2/jobs/Lfa3ngpZHXi7yDJRoKyUrHE7HG0LE3bP/result' \
+    --data-urlencode 'app_id=AjegtHqmNoBMUFOvrfUG' \
+    --data-urlencode 'app_code=O-TLIg--niEpVNRJ8sD8ug' --output file.zip
