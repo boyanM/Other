@@ -1,0 +1,16 @@
+curl \
+  -X POST \
+  -H 'Content-Type: *' \
+  -d 'recId|prox
+0001|52.505308,13.327739,0
+0002|49.917257,8.486488,0
+0003|51.119593,7.399356,0
+0004|49.20012,8.12326,0
+0005|51.116845,7.397318,0
+0006|52.265938,7.976922,0
+0007|48.143131,10.829233,0
+0008|51.770237,7.442682,0
+0009|51.511877,7.461382,0
+0010|52.53,13.391389,0
+0011|42.696395, 23.321913,0' \
+  'http://batch.geocoder.api.here.com/6.2/jobs?gen=1&app_id=AjegtHqmNoBMUFOvrfUG&app_code=O-TLIg--niEpVNRJ8sD8ug&action=run&mailto=%3Cmy_email%3E&header=true&indelim=%7C&outdelim=%7C&outcols=county%2ClocationLabel%2CdisplayLatitude%2CdisplayLongitude&outputCombined=false&language=en-US&mode=retrieveAddresses'
