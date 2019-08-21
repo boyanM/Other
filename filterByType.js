@@ -1,5 +1,5 @@
-function NameOfTheType(){
-        alert("hi");
+function NAME_OF_THE_TYPE(){
+          
           var map = new google.maps.Map(document.getElementById('map'), {
           center: new google.maps.LatLng(42.694767, 23.315017),
           zoom: 13
@@ -9,10 +9,9 @@ function NameOfTheType(){
  downloadUrl('outputxml.php', function(data) {
             var xml = data.responseXML;
             var markers = xml.documentElement.getElementsByTagName('marker');
-            var maxID;
+            var maxID = 0;
             Array.prototype.forEach.call(markers, function(markerElem) {
               var id = markerElem.getAttribute('id');
-              maxID = id;
               var name = markerElem.getAttribute('name');
               var address = markerElem.getAttribute('address');
               var type = markerElem.getAttribute('type');
@@ -30,7 +29,8 @@ function NameOfTheType(){
               text.textContent = point
               infowincontent.appendChild(text);
               
-              if(type == "NAME OF THE TYPE"){
+              if(type == "NAME_OF_THE_TYPE"){
+                maxID=maxID+1;
                 var icon = customLabel[type] || {};
              marker = new google.maps.Marker({
                 map: map,
@@ -41,14 +41,12 @@ function NameOfTheType(){
                 infoWindow.setContent(infowincontent);
                 infoWindow.open(map, marker);
               });
-                marker.setMap(map);
-              }
+               }
               
             });
-            maxID = 1;
-            var divText = document.getElementById("text");
-            var content = document.createTextNode("Markers of type restaurant are :  " + maxID)
-            divText.innerHTML(content);
+            
+            var content = "Markers of type restaurant are :  " + maxID;
+        
+           document.getElementById("text").innerHTML=content;
           });
-
 }
