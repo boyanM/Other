@@ -1,4 +1,4 @@
-function typeRestaurant(){
+function NameOfTheType(){
         alert("hi");
           var map = new google.maps.Map(document.getElementById('map'), {
           center: new google.maps.LatLng(42.694767, 23.315017),
