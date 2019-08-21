@@ -1,3 +1,10 @@
+<?php
+/*
+ * Template Name: Featured Article
+ * Template Post Type: post, page, product
+ */
+  
+ get_header();  ?>
 <!DOCTYPE html >
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
@@ -7,9 +14,7 @@
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #map {
-        float:right;
-        width: 500px;
-        height: 500px;
+        height: 1000px;
       }
       /* Optional: Makes the sample page fill the window. */
       html, body {
@@ -17,14 +22,80 @@
         margin: 0;
         padding: 0;
       }
+
+      .dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #3e8e41;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: right;
+  background-color: #f6f6f6;
+  min-width: 230px;
+  overflow: auto;
+  border: 1px solid #ddd;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown a:hover {background-color: #ddd;}
+
+.show {display: block;}
+.hide {display:inline-block;}
     </style>
   </head>
 
 <html>
   <body>
+
+<div class="dropdown">
+  <button onclick="myFunction()" class="dropbtn">Filters</button>
+  <div id="myDropdown" class="dropdown-content">
+  <p>Choose one of the following filters: </p>
+    <a href="#type" onclick = "subdrop()">Type</a>
+    <a href="#coord">Coordinates</a>
+    <a href="#clear" onclick = "deleteMarkers()">None</a>
+  </div>
+</div>
+
+  <div id = "subdropdown" class ="dropdown-content">
+    <a href="#restaurant" onclick="typeRestaurant()">Restaurant</a>
+    <a href="#bar" onclick="typeBar()">Bar</a>
+    <a href="#office" onclick="typeOffice()">Office</a>
+    <a href="#park" onclick="typepark()">Park</a>
+    <a href="#shop" onclick="typeShop()">Shop</a>
+    <a href="#generated" onclick="typeGenerated()">Generated</a>
+  </div>
+
+<br>
+<br>
+    <div> <p id = "text"></p></div>
+    <br>
     <div id="map"></div>
 
+ <script type="text/javascript" src="http://localhost/template.js"></script>
     <script>
+      var markers = [];
       var customLabel = {
         restaurant: {
           label: 'R'
@@ -46,7 +117,11 @@
         },
         home: {
           label: 'H'
+        },
+	generated: {
+          label: 'G'
         }
+
       };
 
         function initMap() {
@@ -60,8 +135,10 @@
           downloadUrl('outputxml.php', function(data) {
             var xml = data.responseXML;
             var markers = xml.documentElement.getElementsByTagName('marker');
+            var maxID;
             Array.prototype.forEach.call(markers, function(markerElem) {
               var id = markerElem.getAttribute('id');
+              maxID = id;
               var name = markerElem.getAttribute('name');
               var address = markerElem.getAttribute('address');
               var type = markerElem.getAttribute('type');
@@ -76,22 +153,28 @@
               infowincontent.appendChild(document.createElement('br'));
 
               var text = document.createElement('text');
-              text.textContent = address
+              text.textContent = point
               infowincontent.appendChild(text);
-              var icon = customLabel[type] || {};
-              var marker = new google.maps.Marker({
+              
+              if(type == "bar"){
+                var icon = customLabel[type] || {};
+             marker = new google.maps.Marker({
                 map: map,
                 position: point,
                 label: icon.label
               });
-              marker.addListener('click', function() {
+                marker.addListener('click', function() {
                 infoWindow.setContent(infowincontent);
                 infoWindow.open(map, marker);
               });
+              }
+              
             });
+            var divText = document.getElementById("text");
+            var content = document.createTextNode("Total markers:   " + maxID)
+            divText.appendChild(content);
           });
         }
-
 
 
       function downloadUrl(url, callback) {
@@ -110,10 +193,30 @@
         request.send(null);
       }
 
+      function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+      function myFunc(){
+  var i = 5;
+  alert(i);
+}
+    
+      function deleteMarkers()
+      {
+        marker.setMap(null);
+      }
+      
+     function subdrop()
+{
+document.getElementById("subdropdown").classList.toggle("hide");
+}
+
       function doNothing() {}
     </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHC41RgJXrYkJmkG1dr7ih8zKtBJhw5RM&callback=initMap">
     </script>
+
+    
   </body>
 </html>
