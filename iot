@@ -5,7 +5,7 @@ import socket
 
 HOST = "127.0.0.1"  # Standard loopback interface address (localhost)
 PORT = 65432  # Port to listen on (non-privileged ports are > 1023)
-
+FORMAT = 'utf-8'
 #Modules
 import pygame
 pygame.init()
@@ -30,7 +30,7 @@ BLACK = (0,0,0)
 SCORE_FONT = pygame.font.SysFont("comicsans",50)
 
 
-def thread_function():
+def thread_function(left_paddle):
 	with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 		s.bind((HOST, PORT))
 		s.listen()
@@ -38,15 +38,20 @@ def thread_function():
 		with conn:
 			print(f"Connected by {addr}")
 			while True:
-				data = conn.recv(1024)
+				data = conn.recv(1024).decode(FORMAT)
 				if not data:
 					break
-				conn.sendall(data)
+
+				if data == "U":
+					left_paddle.move(up=True)
+					left_paddle.move(up=True)
+				#print(data.decode(FORMAT))
+				#conn.sendall(data)
 
 
 class Paddle:
 	COLOR = WHITE
-	VELOCITY  = 4
+	VELOCITY  = 40
 
 	def __init__(self, x , y, width, height):
 		self.x = x
@@ -150,9 +155,6 @@ def handle_paddle_movement(keys, left_paddle, right_paddle):
 
 def main():
 
-	t2 = threading.Thread(target=thread_function, daemon=True)
-	
-	t2.start()
 
 	run = True
 	clock = pygame.time.Clock()
@@ -164,6 +166,9 @@ def main():
 	left_score = 0
 	right_score = 0
 
+	t2 = threading.Thread(target=thread_function, args=(left_paddle,), daemon=True)
+	
+	t2.start()
 	while run:
 
 		clock.tick(FPS)
