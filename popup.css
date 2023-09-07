@@ -7,4 +7,21 @@
   left:50%;
   top:50%;
   border-radius: 8px;
+  font-family: "Poppins", sanf-serif;
+}
+.popup button{
+  display: block;
+  margin: 0 0 20px auto;
+  background-color:transparent;
+  font-size: 30px;
+  color: #c5c5c5;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.popup p{
+  font-size: 14px;
+  font-align: justify;
+  margin: 20px 0;
 }
